@@ -1,20 +1,23 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import Colors from '../../constant/Colors'
+
+import { useRouter } from 'expo-router'
+
 
 export default function LoginScreen() {
+  const router = useRouter()
   return (
     <View style={{ flex: 1 }}>
       <View style={{
         display: 'flex',
         alignItems: 'center',
-        marginTop: 50,
+        marginTop: 5,
       }}>
-        <Image source={require('../../assets/images/Landing.jpg')} style={{ width: 200, height: 500 }} />
+        <Image source={require('../../assets/images/Login.jpg')} style={{ width: 200, height: 500 }} />
       </View>
       <View style={{
         padding: 20,
-        backgroundColor: '#0000FF',
+        backgroundColor: '#3d66fe',
         height: '100%',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -35,13 +38,13 @@ export default function LoginScreen() {
           marginBottom: 20,
           textAlign: 'center'
         }}>
-          Your Journey to Wellness Starts Here
+          Your Journey to Wellness Starts Here!!
         </Text>
 
         <Text style={{
           fontSize: 14,
           color: 'white',
-          marginBottom: 30,
+          marginBottom: 10,
           textAlign: 'center'
         }}>
           Your all-in-one health app for fitness, nutrition, and sleep. Get insights, stay motivated, and make smarter choices—every day.
@@ -55,20 +58,23 @@ export default function LoginScreen() {
             alignItems: 'center',
             marginTop: 20
           }}
+          onPress={() => router.push('/login/signin')}
         >
           <Text style={{
             color: 'blue',
             fontSize: 18,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            marginBottom: 5
+
           }}>
             Continue
           </Text>
         </TouchableOpacity>
         <Text style={{
-          color: 'white',
+          color: '#999999',
           textAlign: 'center',
           marginTop: 4,
-          marginBottom: 100,
+          marginBottom: 10,
         }}> NOTE: Proceeding means you accept our Terms & Conditions.</Text>
 
       </View>
