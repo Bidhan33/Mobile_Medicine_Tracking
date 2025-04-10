@@ -1,4 +1,4 @@
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { 
@@ -37,6 +37,8 @@ export default function SignInScreen() {
             <Text variant="titleMedium" style={styles.welcomeText}>
               Welcome back!
             </Text>
+
+            
           </View>
 
          
@@ -164,15 +166,22 @@ const styles = StyleSheet.create({
   appName: {
     color: '#3d66fe',
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 5,
+    
   },
   welcomeText: {
     color: '#555',
+    marginBottom: 2,
   },
   card: {
     marginTop: 16,
     borderRadius: 16,
-    elevation: 3,
+    elevation: 4,
+    backgroundColor: '#f0f4f8',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
   },
   input: {
     marginBottom: 16,
@@ -224,4 +233,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginHorizontal: 40,
   },
+  
+  
 });

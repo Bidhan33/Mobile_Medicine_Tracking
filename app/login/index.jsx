@@ -71,7 +71,7 @@ export default function LoginScreen() {
           </Text>
         </TouchableOpacity>
         <Text style={{
-          color: '#999999',
+          color: '',
           textAlign: 'center',
           marginTop: 4,
           marginBottom: 10,
