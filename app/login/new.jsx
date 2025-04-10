@@ -17,26 +17,26 @@ const SignUpScreen = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const onCreateAccount = () => { 
-    if(!email || !password ||!confirmPassword ||!name){
+    if(!email || !password || !name){
       alert('Please fill in all fields');
       return;
-    }else if(password !== confirmPassword){
-        alert('Passwords do not match');
-        return;
+    }
+    
+    if(!termsAccepted) {
+      alert('Please accept the terms and conditions');
+      return;
     }
 
-    
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('User registered:', user);
-        router.push('/(tabs)');
+        router.push('/home');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -105,15 +105,7 @@ const SignUpScreen = () => {
                 value={password}
                 onChangeText={(value) => setPassword(value)}
               />
-              <TextInput
-                label="Confirm Password"
-                mode="outlined"
-                left={<TextInput.Icon icon="lock-check" />}
-                style={styles.input}
-                secureTextEntry={!showPassword}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-              />
+              
 
               <View style={styles.checkboxContainer}>
                 <Checkbox

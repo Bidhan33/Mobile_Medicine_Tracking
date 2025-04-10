@@ -1,6 +1,8 @@
 import { View, ScrollView, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
+import { auth } from '../../config/Firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { 
   Text,
   TextInput,
@@ -17,6 +19,40 @@ export default function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const OnsignInClick=() => {
+    if(!email || !password){
+      alert('Please fill in all fields');
+      return;
+    }
+    console.log('Attempting to sign in with:', email);
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log('User signed in successfully:', user.uid);
+      
+      // Try a more explicit navigation path
+      try {
+        console.log('Attempting navigation...');
+        // Use absolute path without slash
+        router.replace('/(tabs)');
+      } catch (navError) {
+        console.error('Navigation error:', navError);
+        alert('Authentication successful but navigation failed. Please try again.');
+      }
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error('Firebase auth error:', errorCode, errorMessage);
+      
+      if(errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
+        alert('Invalid email or password');
+      } else {
+        alert(`Sign-in error: ${errorMessage}`);
+      }
+    });
+};
 
   return (
     <KeyboardAvoidingView 
@@ -53,7 +89,7 @@ export default function SignInScreen() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={email}
-                onChangeText={setEmail}
+                onChangeText={(value) => setEmail(value)}
               />
 
               
@@ -68,7 +104,7 @@ export default function SignInScreen() {
                 style={styles.input}
                 secureTextEntry={!showPassword}
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={(value) => setPassword(value)}
               />
 
               
@@ -85,7 +121,7 @@ export default function SignInScreen() {
               <Button 
                 mode="contained" 
                 style={styles.primaryButton}
-                onPress={() => router.push('/home')}
+                onPress={OnsignInClick}
                 icon="login"
               >
                 Sign In
