@@ -1,4 +1,4 @@
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, ToastAndroid } from 'react-native';
 import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { 
@@ -12,42 +12,79 @@ import {
 import { StyleSheet } from 'react-native';
 import { auth } from '../../config/Firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
+import { setLocalStorage } from '../../Service/Storage';
 
 const SignUpScreen = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onCreateAccount = () => { 
-    if(!email || !password ||!confirmPassword ||!name){
-      alert('Please fill in all fields');
-      return;
-    }else if(password !== confirmPassword){
-        alert('Passwords do not match');
-        return;
+  
+  const showToast = (message) => {
+    if (Platform.OS === 'android') {
+      ToastAndroid.showWithGravityAndOffset(
+        message,
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        0,
+        50
+      );
+    } else {
+      
+      alert(message);
     }
+  };
 
-    
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('User registered:', user);
-        router.push('/(tabs)');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
-        if(errorCode === 'auth/email-already-in-use'){
-          alert('Email already in use');
-        } else {
-          alert('Registration failed: ' + errorMessage);
-        }
+  const onCreateAccount = async () => {
+    if (!email || !password || !confirmPassword || !name) {
+      showToast('Please fill in all fields');
+      return;
+    } else if (password !== confirmPassword) {
+      showToast('Passwords do not match');
+      return;
+    } else if (!termsAccepted) {
+      showToast('Please accept the Terms and Conditions');
+      return;
+    }
+  
+    setIsLoading(true);
+  
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      await updateProfile(user, {
+        displayName: name,
       });
+  
+      console.log('User registered:', user);
+      showToast('Account created successfully!');
+
+      await setLocalStorage('userDetail', user); 
+      router.push('/(tabs)');
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorCode, errorMessage);
+  
+      if (errorCode === 'auth/email-already-in-use') {
+        showToast('Email already in use');
+      } else if (errorCode === 'auth/weak-password') {
+        showToast('Password is too weak. Please use at least 6 characters');
+      } else if (errorCode === 'auth/invalid-email') {
+        showToast('Invalid email address');
+      } else {
+        showToast('Registration failed: ' + errorMessage);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -131,8 +168,10 @@ const SignUpScreen = () => {
                 onPress={onCreateAccount}
                 icon="account-plus"
                 buttonColor="#3e6bf4"
+                loading={isLoading}
+                disabled={isLoading}
               >
-                Sign Up
+                {isLoading ? 'Creating Account...' : 'Sign Up'}
               </Button>
 
               <View style={styles.dividerContainer}>
@@ -148,6 +187,7 @@ const SignUpScreen = () => {
                 style={styles.secondaryButton}
                 onPress={() => router.push('/login/signin')}
                 icon="login"
+                disabled={isLoading}
               >
                 Already have an account? Sign In
               </Button>
@@ -164,17 +204,20 @@ const SignUpScreen = () => {
                 iconColor="#DB4437"
                 size={32}
                 onPress={() => console.log('Google sign up')}
+                disabled={isLoading}
               />
               <IconButton
                 icon="facebook"
                 iconColor="#4267B2"
                 size={32}
                 onPress={() => console.log('Facebook sign up')}
+                disabled={isLoading}
               />
               <IconButton
                 icon="apple"
                 size={32}
                 onPress={() => console.log('Apple sign up')}
+                disabled={isLoading}
               />
             </View>
           </View>

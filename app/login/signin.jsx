@@ -1,4 +1,4 @@
-import { View, ScrollView, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, Image, ToastAndroid } from 'react-native';
 import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { auth } from '../../config/Firebase';
@@ -13,46 +13,70 @@ import {
   Divider
 } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import { setLocalStorage } from '../../Service/Storage';
 
 export default function SignInScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const OnsignInClick=() => {
-    if(!email || !password){
-      alert('Please fill in all fields');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Function to show toast message
+  const showToast = (message) => {
+    if (Platform.OS === 'android') {
+      ToastAndroid.showWithGravityAndOffset(
+        message,
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        0,
+        50
+      );
+    } else {
+      // Fallback for iOS - you might want to implement a custom iOS solution
+      alert(message);
+    }
+  };
+
+  const onSignInClick = () => {
+    if (!email || !password) {
+      showToast('Please fill in all fields');
       return;
     }
+    
+    setIsLoading(true);
     console.log('Attempting to sign in with:', email);
+    
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log('User signed in successfully:', user.uid);
-      
-      // Try a more explicit navigation path
-      try {
-        console.log('Attempting navigation...');
-        // Use absolute path without slash
-        router.replace('/(tabs)');
-      } catch (navError) {
-        console.error('Navigation error:', navError);
-        alert('Authentication successful but navigation failed. Please try again.');
-      }
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error('Firebase auth error:', errorCode, errorMessage);
-      
-      if(errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
-        alert('Invalid email or password');
-      } else {
-        alert(`Sign-in error: ${errorMessage}`);
-      }
-    });
-};
+      .then(async(userCredential) => {
+        const user = userCredential.user;
+        console.log('User signed in successfully:', user.uid);
+        await setLocalStorage('userDetail', user); 
+        
+        try {
+          console.log('Attempting navigation...');
+          
+          router.replace('/(tabs)');
+        } catch (navError) {
+          console.error('Navigation error:', navError);
+          showToast('Authentication successful but navigation failed. Please try again.');
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Firebase auth error:', errorCode, errorMessage);
+        
+        if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
+          showToast('Invalid email or password');
+        } else {
+          showToast(`Sign-in error: ${errorMessage}`);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <KeyboardAvoidingView 
@@ -65,7 +89,6 @@ export default function SignInScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
-         
           <View style={styles.header}>
             <Text variant="displaySmall" style={styles.appName}>
               HealthTrack
@@ -73,14 +96,10 @@ export default function SignInScreen() {
             <Text variant="titleMedium" style={styles.welcomeText}>
               Welcome back!
             </Text>
-
-            
           </View>
 
-         
           <Card style={styles.card}>
             <Card.Content>
-              
               <TextInput
                 label="Email"
                 mode="outlined"
@@ -91,7 +110,6 @@ export default function SignInScreen() {
                 value={email}
                 onChangeText={(value) => setEmail(value)}
               />
-
               
               <TextInput
                 label="Password"
@@ -106,7 +124,6 @@ export default function SignInScreen() {
                 value={password}
                 onChangeText={(value) => setPassword(value)}
               />
-
               
               <Button 
                 mode="text" 
@@ -116,18 +133,18 @@ export default function SignInScreen() {
               >
                 Forgot Password?
               </Button>
-
               
               <Button 
                 mode="contained" 
                 style={styles.primaryButton}
-                onPress={OnsignInClick}
+                onPress={onSignInClick}
                 icon="login"
+                loading={isLoading}
+                disabled={isLoading}
               >
-                Sign In
+                {isLoading ? 'Signing In...' : 'Sign In'}
               </Button>
-
-             
+              
               <View style={styles.dividerContainer}>
                 <Divider style={styles.dividerLine} />
                 <Text variant="bodySmall" style={styles.dividerText}>
@@ -135,19 +152,18 @@ export default function SignInScreen() {
                 </Text>
                 <Divider style={styles.dividerLine} />
               </View>
-
               
               <Button 
                 mode="outlined" 
                 style={styles.secondaryButton}
                 onPress={() => router.push('/login/signup')}
                 icon="account-plus"
+                disabled={isLoading}
               >
                 Create Account
               </Button>
             </Card.Content>
           </Card>
-
           
           <View style={styles.socialContainer}>
             <Text variant="bodyMedium" style={styles.socialText}>
@@ -159,22 +175,24 @@ export default function SignInScreen() {
                 iconColor="#DB4437"
                 size={32}
                 onPress={() => console.log('Google sign in')}
+                disabled={isLoading}
               />
               <IconButton
                 icon="facebook"
                 iconColor="#4267B2"
                 size={32}
                 onPress={() => console.log('Facebook sign in')}
+                disabled={isLoading}
               />
               <IconButton
                 icon="apple"
                 size={32}
                 onPress={() => console.log('Apple sign in')}
+                disabled={isLoading}
               />
             </View>
           </View>
-
-         
+          
           <Text variant="bodySmall" style={styles.footerText}>
             By continuing, you agree to our Terms of Service and Privacy Policy
           </Text>
@@ -203,7 +221,6 @@ const styles = StyleSheet.create({
     color: '#3d66fe',
     fontWeight: 'bold',
     marginBottom: 5,
-    
   },
   welcomeText: {
     color: '#555',
@@ -269,6 +286,4 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginHorizontal: 40,
   },
-  
-  
 });
