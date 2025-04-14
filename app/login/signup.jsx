@@ -62,6 +62,11 @@ const SignUpScreen = () => {
       await updateProfile(user, {
         displayName: name,
       });
+      await user.reload(); 
+      const userToSave = {
+        ...updatedUser,
+        displayName: name, 
+      };
   
       console.log('User registered:', user);
       showToast('Account created successfully!');

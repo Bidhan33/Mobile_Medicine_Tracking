@@ -22,7 +22,25 @@ export default function SignInScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Function to show toast message
+  const GetUserDetail = async () => {
+    try {
+      
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        
+        await currentUser.reload();
+       
+        const freshUser = auth.currentUser;
+        console.log('Current Firebase user with updated profile:', freshUser);
+        
+        
+        await setLocalStorage('userDetail', freshUser);
+      }
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+    }
+  };
+  
   const showToast = (message) => {
     if (Platform.OS === 'android') {
       ToastAndroid.showWithGravityAndOffset(
@@ -33,7 +51,6 @@ export default function SignInScreen() {
         50
       );
     } else {
-      // Fallback for iOS - you might want to implement a custom iOS solution
       alert(message);
     }
   };
@@ -52,6 +69,8 @@ export default function SignInScreen() {
         const user = userCredential.user;
         console.log('User signed in successfully:', user.uid);
         await setLocalStorage('userDetail', user); 
+
+        await GetUserDetail();
         
         try {
           console.log('Attempting navigation...');
