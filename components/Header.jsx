@@ -27,20 +27,23 @@ export default function Header() {
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
-            source={require("./../assets/images/healthcare.png")}
-            style={{ width: 45, height: 50, right: 20,  marginRight: 10 }}
+            source={require("./../assets/images/hello.png")}
+            style={{ width: 38, height: 40, right: 14,  marginRight: 5 }}
           />
           <Text
             style={{
-              fontSize: 15,
-              fontWeight: "bold",
+              fontSize: 14,
+              fontWeight: "500",
               color: "#000",
+              fontStyle: "italic",
+              
+    
             }}
           >
             Back again! Time for your meds 💊
           </Text>
         </View>
-        <Feather name="settings" size={28} color="black"  style={{ marginLeft: 40 }} />
+        <Feather name="settings" size={28} color="black"  style={{ marginLeft: 70}} />
       </View>
     </View>
   );
