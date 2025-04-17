@@ -60,6 +60,14 @@ export default function Inputs() {
 
     const docId = Date.now().toString();
     const user = await getLocalStorage('userDetail');
+    const datesBetween = [];
+    const currentDate = new Date(startDate);
+    const lastDate = new Date(endDate);
+    
+    while (currentDate <= lastDate) {
+      datesBetween.push(new Date(currentDate).toLocaleDateString());
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
 
     const medicationData = {
       name: medicationName,
@@ -68,6 +76,7 @@ export default function Inputs() {
       whenToTake,
       startDate: formatFullDateTime(startDate),
       endDate: formatFullDateTime(endDate),
+      dates: datesBetween, 
       reminders: reminders.map(time => formatTimeOnly(time)),
       userEmail: user?.email || '',
       docId: docId,
@@ -150,7 +159,6 @@ export default function Inputs() {
           <Text style={styles.buttonText}>SAVE MEDICATION</Text>
         </TouchableOpacity>
 
-       
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#3498db" />
