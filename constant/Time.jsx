@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
-// Fixed Dropdown Component using Modal instead of inline list
+
+
 export function WhenToTakeDropdown({ whenToTake, setWhenToTake }) {
   const [modalVisible, setModalVisible] = useState(false);
   const timingOptions = [
@@ -69,7 +71,7 @@ export function WhenToTakeDropdown({ whenToTake, setWhenToTake }) {
   );
 }
 
-// Date Selector Component - unchanged
+
 export function DateSelector({ label, date, setDate }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -191,6 +193,18 @@ export function ReminderPicker({ reminders, setReminders }) {
   );
 }
 
+export const GetDateRangeToDisplay = () => {
+  const dateList=[];
+  for(let i=0; i<7; i++){
+    dateList.push({
+      date:moment().add(i, 'days').format('DD'),
+      day:moment().add(i, 'days').format('dd'),
+      formattedDate:moment().add(i, 'days').format('DD/MM/YYYY'),
+    })
+
+  }
+  return dateList;
+};
 const styles = StyleSheet.create({
   label: {
     fontSize: 14,

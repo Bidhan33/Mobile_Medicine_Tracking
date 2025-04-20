@@ -40,7 +40,7 @@ export default function Header() {
     
             }}
           >
-            Back again! Time for your meds 💊
+            Back Again! Time For Your Meds 💊
           </Text>
         </View>
         <Feather name="settings" size={28} color="black"  style={{ marginLeft: 70}} />
