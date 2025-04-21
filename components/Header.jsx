@@ -1,10 +1,13 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getLocalStorage } from "../Service/Storage";
-import Feather from "@expo/vector-icons/Feather";
+import { useRouter } from "expo-router"; // useRouter hook for navigation
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function Header() {
   const [user, setUser] = useState(null);
+
+  const router = useRouter(); // useRouter hook directly
 
   useEffect(() => {
     GetUserDetail();
@@ -28,7 +31,7 @@ export default function Header() {
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
             source={require("./../assets/images/hello.png")}
-            style={{ width: 38, height: 40, right: 14,  marginRight: 5 }}
+            style={{ width: 38, height: 40, right: 14, marginRight: 5 }}
           />
           <Text
             style={{
@@ -36,14 +39,19 @@ export default function Header() {
               fontWeight: "500",
               color: "#000",
               fontStyle: "italic",
-              
-    
             }}
           >
             Back Again! Time For Your Meds 💊
           </Text>
         </View>
-        <Feather name="settings" size={28} color="black"  style={{ marginLeft: 70}} />
+        <TouchableOpacity onPress={() => router.push('/add-new-medicine')}>
+          <AntDesign
+            name="medicinebox"
+            size={30}
+            color="black"
+            style={{ marginLeft: 50, height: 40 }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
