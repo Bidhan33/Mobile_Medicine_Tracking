@@ -1,10 +1,19 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'; 
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import moment from 'moment';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function MedcardList({ medicine, selectedDate }) {
-  
+  // Check if this medicine has been marked as taken
+  const isMedicineTaken = () => {
+    if (!medicine.action || !Array.isArray(medicine.action)) return false;
+    
+    return medicine.action.some(
+      action => action.date === selectedDate && action.status === 'taken'
+    );
+  };
+
   const shouldDisplayMedicine = () => {
     if (!selectedDate) return false;
     
@@ -17,7 +26,7 @@ export default function MedcardList({ medicine, selectedDate }) {
     const startDate = moment(medicine.startDate);
     const endDate = moment(medicine.endDate);
     
-    return selectedMoment.isSameOrAfter(startDate, 'day') && 
+    return selectedMoment.isSameOrAfter(startDate, 'day') &&
            selectedMoment.isSameOrBefore(endDate, 'day');
   };
 
@@ -28,19 +37,26 @@ export default function MedcardList({ medicine, selectedDate }) {
   const getMedicineIcon = () => {
     return require('../assets/images/8.png');
   };
-
- 
+  
   const reminderTime = medicine.reminders && medicine.reminders[0];
+  const taken = isMedicineTaken();
 
   return (
     <View style={styles.container}>
       <View style={styles.medicineCard}>
+        {taken && (
+          <View style={styles.statusIndicator}>
+            <AntDesign name="checkcircle" size={24} color="#4CAF50" />
+          </View>
+        )}
+        
         <View style={styles.iconContainer}>
-          <Image 
+          <Image
             source={getMedicineIcon()}
             style={styles.medicineIcon}
           />
         </View>
+        
         <View style={styles.infoContainer}>
           <Text style={styles.medicineName}>{medicine.name}</Text>
           <Text style={styles.timingText}>{medicine.whenToTake}</Text>
@@ -48,7 +64,6 @@ export default function MedcardList({ medicine, selectedDate }) {
             {medicine.dose} {medicine.types && medicine.types.length > 0 ? medicine.types[0] : ''}
           </Text>
         </View>
-        
         
         {reminderTime && (
           <View style={styles.reminderContainer}>
@@ -63,16 +78,16 @@ export default function MedcardList({ medicine, selectedDate }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20, 
+    paddingTop: 20,
     paddingHorizontal: 6,
-    marginBottom: 1, 
+    marginBottom: 1,
   },
   medicineCard: {
     backgroundColor: '#42ecf5',
     borderRadius: 15,
     padding: 22,
     flexDirection: 'row',
-    alignItems: 'center', 
+    alignItems: 'center',
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -82,6 +97,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 3,
+    position: 'relative',
+  },
+  statusIndicator: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 10,
   },
   iconContainer: {
     backgroundColor: '#fff',
@@ -119,7 +141,7 @@ const styles = StyleSheet.create({
   reminderContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 15, 
+    marginLeft: 15,
   },
   reminderText: {
     fontSize: 16,

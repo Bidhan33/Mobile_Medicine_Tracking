@@ -37,30 +37,31 @@ export default function TabLayout() {
           )
         }} 
       />
+     
       <Tabs.Screen 
-        name='AddNew' 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="plus" size={size} color={color} />
-          )
-        }} 
-      />
-      <Tabs.Screen 
-        name='Profile' 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="user" size={size} color={color} />
-          )
-        }} 
-      />
-      <Tabs.Screen 
-        name='Medicine' 
+        name='Hospitals' 
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="medkit" size={size} color={color} />
           )
         }} 
       />
+        <Tabs.Screen 
+        name='History' 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="history" size={size} color={color} />
+          )
+        }} 
+      />
+       <Tabs.Screen 
+        name='Profile' 
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="user" size={size} color={color} />
+          )
+        }} 
+        />
     </Tabs>
   );
 }

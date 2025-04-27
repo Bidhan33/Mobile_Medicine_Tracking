@@ -1,5 +1,5 @@
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import React from "react";
 import { GetDateRangeToDisplay } from "../constant/Time";
 import moment from "moment";
@@ -8,11 +8,13 @@ import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../config/Firebase";
 import { getLocalStorage } from "../Service/Storage";
 import MedcardList from "../components/MedcardList";
+import { useRouter, useFocusEffect } from "expo-router";
 
 export default function MedList() {
   const [medList, setMedList] = useState([]);
   const [dateRange, setDateRange] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const router = useRouter();
 
   const GetDateRangeList = () => {
     const range = GetDateRangeToDisplay();
@@ -32,7 +34,11 @@ export default function MedList() {
       const querySnapshot = await getDocs(q);
       const meds = [];
       querySnapshot.forEach((doc) => {
-        meds.push(doc.data());
+        // Include the document ID in the data
+        meds.push({
+          ...doc.data(),
+          docId: doc.id
+        });
       });
       setMedList(meds);
     } catch (e) {
@@ -41,10 +47,22 @@ export default function MedList() {
     }
   };
 
+  // Initial load
   useEffect(() => {
     GetDateRangeList();
     getMedList();
   }, []);
+
+  // Refresh data when the screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      // This will be called when the screen comes into focus
+      getMedList();
+      return () => {
+        // Optional cleanup function
+      };
+    }, [])
+  );
 
   const filteredMeds = medList.filter((med) => {
     const selectedMoment = moment(selectedDate, "DD/MM/YYYY");
@@ -113,11 +131,20 @@ export default function MedList() {
 
       {filteredMeds.length > 0 ? (
         filteredMeds.map((item, index) => (
-          <TouchableOpacity key={index}>
+          <TouchableOpacity 
+            onPress={() => router.push({
+              pathname: "/action-modal",
+              params: { 
+                ...item,
+                selectedDate: selectedDate 
+              },
+            })}
+            key={index}
+          >
             <MedcardList
               medicine={item}
               selectedDate={selectedDate}
-              inde={index}
+              index={index}
               totalMeds={filteredMeds.length}
             />
           </TouchableOpacity>
