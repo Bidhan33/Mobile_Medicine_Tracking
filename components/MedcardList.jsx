@@ -5,29 +5,27 @@ import moment from 'moment';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function MedcardList({ medicine, selectedDate }) {
-  // Check if this medicine has been marked as taken
-  const isMedicineTaken = () => {
-    if (!medicine.action || !Array.isArray(medicine.action)) return false;
-    
-    return medicine.action.some(
-      action => action.date === selectedDate && action.status === 'taken'
-    );
+  // Function to get medicine status for selected date
+  const getMedicineStatus = () => {
+    if (!medicine.action || !Array.isArray(medicine.action)) return null;
+    const action = medicine.action.find(action => action.date === selectedDate);
+    return action ? action.status : null;
   };
 
   const shouldDisplayMedicine = () => {
     if (!selectedDate) return false;
-    
+
     const selectedMoment = moment(selectedDate, "DD/MM/YYYY");
-    
+
     if (medicine.dates && medicine.dates.includes(selectedDate)) {
       return true;
     }
-    
+
     const startDate = moment(medicine.startDate);
     const endDate = moment(medicine.endDate);
-    
+
     return selectedMoment.isSameOrAfter(startDate, 'day') &&
-           selectedMoment.isSameOrBefore(endDate, 'day');
+      selectedMoment.isSameOrBefore(endDate, 'day');
   };
 
   if (!shouldDisplayMedicine()) {
@@ -37,26 +35,32 @@ export default function MedcardList({ medicine, selectedDate }) {
   const getMedicineIcon = () => {
     return require('../assets/images/8.png');
   };
-  
+
   const reminderTime = medicine.reminders && medicine.reminders[0];
-  const taken = isMedicineTaken();
+  const medicineStatus = getMedicineStatus();
 
   return (
     <View style={styles.container}>
       <View style={styles.medicineCard}>
-        {taken && (
+        {medicineStatus === 'taken' && (
           <View style={styles.statusIndicator}>
             <AntDesign name="checkcircle" size={24} color="#4CAF50" />
           </View>
         )}
-        
+
+        {medicineStatus === 'missed' && (
+          <View style={styles.statusIndicator}>
+            <AntDesign name="closecircle" size={24} color="#FF3B30" />
+          </View>
+        )}
+
         <View style={styles.iconContainer}>
           <Image
             source={getMedicineIcon()}
             style={styles.medicineIcon}
           />
         </View>
-        
+
         <View style={styles.infoContainer}>
           <Text style={styles.medicineName}>{medicine.name}</Text>
           <Text style={styles.timingText}>{medicine.whenToTake}</Text>
@@ -64,7 +68,7 @@ export default function MedcardList({ medicine, selectedDate }) {
             {medicine.dose} {medicine.types && medicine.types.length > 0 ? medicine.types[0] : ''}
           </Text>
         </View>
-        
+
         {reminderTime && (
           <View style={styles.reminderContainer}>
             <MaterialIcons name="access-time" size={24} color="black" />

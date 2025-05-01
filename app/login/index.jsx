@@ -1,8 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-
 import { useRouter } from 'expo-router'
-
+import { LinearGradient } from 'expo-linear-gradient'
 
 export default function LoginScreen() {
   const router = useRouter()
@@ -50,32 +49,48 @@ export default function LoginScreen() {
           Your all-in-one health app for fitness, nutrition, and sleep. Get insights, stay motivated, and make smarter choices—every day.
         </Text>
 
+        {/* Updated Gradient Button */}
         <TouchableOpacity 
           style={{
-            backgroundColor: 'white',
-            padding: 15,
             borderRadius: 30,
-            alignItems: 'center',
-            marginTop: 20
+            overflow: 'hidden',
+            marginTop: 20,
+            shadowColor: '#4285F4',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 10,
+            elevation: 5,
           }}
           onPress={() => router.push('/login/page1')}
         >
-          <Text style={{
-            color: 'blue',
-            fontSize: 18,
-            fontWeight: 'bold',
-            marginBottom: 5
-
-          }}>
-            Continue
-          </Text>
+          <LinearGradient
+            colors={['#4285F4', '#34A853']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              paddingVertical: 16,
+              paddingHorizontal: 24,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{
+              color: 'white',
+              fontSize: 18,
+              fontWeight: 'bold',
+            }}>
+              Continue
+            </Text>
+          </LinearGradient>
         </TouchableOpacity>
+
         <Text style={{
-          color: '',
+          color: '#ddd',
           textAlign: 'center',
-          marginTop: 4,
-          marginBottom: 10,
-        }}> NOTE: Proceeding means you accept our Terms & Conditions.</Text>
+          marginTop: 10,
+          fontSize: 12,
+        }}>NOTE: Proceeding means you accept our Terms & Conditions.</Text>
 
       </View>
     </View>

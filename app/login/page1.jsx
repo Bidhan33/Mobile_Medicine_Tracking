@@ -1,160 +1,252 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
-import React from 'react'
-import { useRouter } from 'expo-router'
+import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar, Dimensions, Animated, Easing } from 'react-native';
+import React, { useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialIcons } from '@expo/vector-icons';
+
+const { width } = Dimensions.get('window');
 
 export default function WelcomeScreen() {
-  const router = useRouter()
-  
+  const router = useRouter();
+  const fadeAnim = new Animated.Value(0);
+  const slideAnim = new Animated.Value(100);
+
+  useEffect(() => {
+    // Animation sequence
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        easing: Easing.out(Easing.exp),
+        useNativeDriver: true,
+      })
+    ]).start();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#4285F4" barStyle="light-content" />
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
       
-      {/* Top Header Section - Extended to top of screen */}
-      <View style={styles.headerSection}>
-        <Text style={styles.appName}>MediRemind</Text>
-        <Text style={styles.tagline}>Never Miss a Dose Again</Text>
-      </View>
-      
-      {/* Middle Image Section */}
-      <View style={styles.imageContainer}>
-        <Image 
-          source={require('../../assets/images/3.jpg')} 
-          style={styles.welcomeImage} 
-          resizeMode="contain"
-        />
-      </View>
-      
-      {/* Bottom Content Section */}
-      <View style={styles.contentSection}>
-        <Text style={styles.contentTitle}>
-          Your Smart Medication Assistant
-        </Text>
-        
+      {/* Gradient Background Header */}
+      <LinearGradient
+        colors={['#4A90E2', '#4285F4']}
+        style={styles.headerGradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+      >
+        <Animated.View style={[styles.headerContent, { opacity: fadeAnim }]}>
+          <Text style={styles.appName}>MediRemind</Text>
+          <Text style={styles.tagline}>Your Personal Medication Companion</Text>
+        </Animated.View>
+      </LinearGradient>
+
+      {/* Main Content */}
+      <Animated.ScrollView 
+        style={[styles.scrollView, { 
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }] 
+        }]}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Animated Illustration */}
+        <Animated.View style={[styles.imageContainer, { opacity: fadeAnim }]}>
+          <Image 
+            source={require('../../assets/images/3.jpg')} 
+            style={styles.welcomeImage} 
+            resizeMode="contain"
+          />
+        </Animated.View>
+
+        {/* Feature Cards */}
+        <View style={styles.featuresContainer}>
+          <View style={styles.featureCard}>
+            <MaterialIcons name="alarm" size={28} color="#4285F4" />
+            <Text style={styles.featureTitle}>Smart Reminders</Text>
+            <Text style={styles.featureDesc}>Never miss a dose with timely alerts</Text>
+          </View>
+
+          <View style={styles.featureCard}>
+            <MaterialIcons name="list-alt" size={28} color="#4285F4" />
+            <Text style={styles.featureTitle}>Medication Tracker</Text>
+            <Text style={styles.featureDesc}>Manage all your prescriptions</Text>
+          </View>
+        </View>
+
+        {/* App Description */}
         <Text style={styles.contentDescription}>
-          Stay on track with your medication schedule and never worry about 
-          missed doses with our intuitive medication reminder app.
+          Take control of your health with our intuitive medication management system designed to simplify your healthcare routine.
         </Text>
-        
-        <Text style={styles.featureText}>
-          • Timely medication reminders{'\n'}
-          • Track multiple prescriptions{'\n'}
-          • Refill notifications{'\n'}
-          • Medication history log
-        </Text>
-        
+
+        {/* CTA Buttons */}
         <TouchableOpacity 
-          style={styles.continueButton}
+          style={styles.primaryButton}
           onPress={() => router.push('/login/signup')}
+          activeOpacity={0.8}
         >
-          <Text style={styles.buttonText}>Get Started</Text>
+          <LinearGradient
+            colors={['#4285F4', '#34A853']}
+            style={styles.buttonGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <Text style={styles.primaryButtonText}>Get Started</Text>
+            <MaterialIcons name="arrow-forward" size={24} color="white" />
+          </LinearGradient>
         </TouchableOpacity>
-        
+
         <TouchableOpacity 
           style={styles.secondaryButton}
           onPress={() => router.push('/login/signin')}
+          activeOpacity={0.6}
         >
-          <Text style={styles.secondaryButtonText}>I Already Have An Account</Text>
+          <Text style={styles.secondaryButtonText}>Existing Account? Sign In</Text>
         </TouchableOpacity>
-        
+
+        {/* Footer */}
         <Text style={styles.termsText}>
-          By continuing, you agree to our Terms of Service and Privacy Policy
+          By continuing, you agree to our Terms and Privacy Policy
         </Text>
-      </View>
+      </Animated.ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F8FAFC',
   },
-  headerSection: {
-    backgroundColor: '#4285F4',
-    paddingTop: 60,
+  headerGradient: {
+    paddingTop: StatusBar.currentHeight + 40,
     paddingBottom: 30,
-    alignItems: 'center',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    // Ensure it expands to the top edge of the screen
-    marginTop: -1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  headerContent: {
+    alignItems: 'center',
+    paddingHorizontal: 24,
   },
   appName: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: '800',
     color: 'white',
+    fontFamily: 'Roboto_700Bold',
+    textShadowColor: 'rgba(0,0,0,0.1)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   tagline: {
     fontSize: 16,
-    color: 'white',
+    color: 'rgba(255,255,255,0.9)',
     marginTop: 8,
+    fontFamily: 'Roboto_400Regular',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 24,
+    paddingBottom: 40,
   },
   imageContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 20,
+    marginVertical: 30,
   },
   welcomeImage: {
-    width: 300,
-    height: 200,
+    width: width * 0.8,
+    height: 220,
   },
-  contentSection: {
-    paddingHorizontal: 24,
-    paddingBottom: 20,
+  featuresContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 30,
   },
-  contentTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  featureCard: {
+    backgroundColor: 'white',
+    width: '48%',
+    padding: 20,
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  featureTitle: {
+    fontSize: 16,
+    fontWeight: '600',
     color: '#333',
-    marginBottom: 16,
+    marginTop: 12,
+    marginBottom: 4,
     textAlign: 'center',
+  },
+  featureDesc: {
+    fontSize: 13,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 18,
   },
   contentDescription: {
     fontSize: 16,
     color: '#555',
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: 'center',
-    lineHeight: 22,
-  },
-  featureText: {
-    fontSize: 15,
-    color: '#444',
-    marginBottom: 24,
     lineHeight: 24,
-    backgroundColor: '#f0f8ff',
-    padding: 15,
-    borderRadius: 10,
+    paddingHorizontal: 10,
   },
-  continueButton: {
-    backgroundColor: '#4285F4',
-    paddingVertical: 15,
+  primaryButton: {
     borderRadius: 30,
-    alignItems: 'center',
-    marginBottom: 12,
-    elevation: 3,
+    overflow: 'hidden',
+    marginBottom: 15,
+    shadowColor: '#4285F4',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
   },
-  buttonText: {
+  buttonGradient: {
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  primaryButtonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    marginRight: 10,
   },
   secondaryButton: {
     backgroundColor: 'transparent',
-    paddingVertical: 12,
+    paddingVertical: 16,
     borderRadius: 30,
     alignItems: 'center',
     marginBottom: 20,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#4285F4',
   },
   secondaryButtonText: {
     color: '#4285F4',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   termsText: {
-    color: '#888',
+    color: '#999',
     textAlign: 'center',
     fontSize: 12,
+    marginTop: 10,
   }
 });

@@ -1,10 +1,7 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from 'react';
 
-export default function AddNew() {
-  return (
-    <View>
-      <Text>AddNew</Text>
-    </View>
-  )
+import History from './../../components/History';
+
+export default function HistoryTab() {
+  return <History />;
 }

@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { TypeFormatFlags } from "typescript";
 import { useRouter } from "expo-router";
 export default function EmptyState() {
   const router = useRouter();
