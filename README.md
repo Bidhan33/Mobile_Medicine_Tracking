@@ -220,15 +220,8 @@ Project Link: https://github.com/Bidhan33/Mobile_Medicine_Tracking.git
 
 # Here Are the Screenshot of the Project
 
+![1](https://github.com/user-attachments/assets/77522b01-a452-46d4-803f-d208add10a50)
+![3](https://github.com/user-attachments/assets/1c541bb4-4271-4c2a-8248-7b3f2dc1334e)
 
-#### ![25](https://github.com/user-attachments/assets/8a6c80ff-a43b-4b23-9613-c31531e2bd48)
-![24](https://github.com/user-attachments/assets/d6909667-d38b-4661-9821-cc85522f2e04)
-![23](https://github.com/user-attachments/assets/894e8f06-fce9-4b35-9d85-dcc378b5d8dc)
-![22](https://github.com/user-attachments/assets/135f37db-75b7-4846-8af5-5c2ccd54563b)
-![33](https://github.com/user-attachments/assets/0f29a1a8-42b1-4bd0-9096-41907db815b4)
-![32](https://github.com/user-attachments/assets/71d4aaf9-dee7-473d-bf74-b778b0e4ce79)
-![30](https://github.com/user-attachments/assets/52b58ed9-c2ff-4d2e-a546-350b4c85b6eb)
-![29](https://github.com/user-attachments/assets/e088c8d8-d183-4d2a-bb3b-494965e9ca88)
-![28](https://github.com/user-attachments/assets/6bb0781b-d414-4f33-a5d8-811bd011f70b)
-![27](https://github.com/user-attachments/assets/71a9ab06-4d35-48fd-9469-c7fca095fdca)
-![26](https://github.com/user-attachments/assets/100fb740-8ac0-4ce2-ac11-3b155658e7ae)
+![2](https://github.com/user-attachments/assets/a77b6b16-f934-4835-ad28-7d9ace914aa2)
+![4](https://github.com/user-attachments/assets/3f0a17a8-23a2-4450-876b-5c7cdd79bddf)
