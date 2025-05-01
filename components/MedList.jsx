@@ -47,19 +47,19 @@ export default function MedList() {
     }
   };
 
-  // Initial load
+ 
   useEffect(() => {
     GetDateRangeList();
     getMedList();
   }, []);
 
-  // Refresh data when the screen comes into focus
+  
   useFocusEffect(
     useCallback(() => {
-      // This will be called when the screen comes into focus
+      
       getMedList();
       return () => {
-        // Optional cleanup function
+        
       };
     }, [])
   );

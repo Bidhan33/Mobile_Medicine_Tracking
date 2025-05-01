@@ -58,7 +58,7 @@ export default function LoginScreen() {
             alignItems: 'center',
             marginTop: 20
           }}
-          onPress={() => router.push('/login/signin')}
+          onPress={() => router.push('/login/page1')}
         >
           <Text style={{
             color: 'blue',

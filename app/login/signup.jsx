@@ -63,15 +63,14 @@ const SignUpScreen = () => {
         displayName: name,
       });
       await user.reload(); 
-      const userToSave = {
-        ...updatedUser,
-        displayName: name, 
-      };
+      
+      // Get the updated user after reload
+      const currentUser = auth.currentUser;
   
-      console.log('User registered:', user);
+      console.log('User registered:', currentUser);
       showToast('Account created successfully!');
 
-      await setLocalStorage('userDetail', user); 
+      await setLocalStorage('userDetail', currentUser); 
       router.push('/(tabs)');
     } catch (error) {
       const errorCode = error.code;
