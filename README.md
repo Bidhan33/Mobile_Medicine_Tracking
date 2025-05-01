@@ -63,7 +63,7 @@ The Medicine Reminder App is a user-friendly and efficient mobile application bu
 
 1. Clone the repository:
 
-    ```                                                  [    git clone https://github.com/yourusername/medicine-reminder-app.git ](https://github.com/Bidhan33/Mobile_Medicine_Tracking.git)   ```  
+    ```      [    git clone https://github.com/yourusername/medicine-reminder-app.git ]  ```  
 
 ## Navigate to the project directory:
 
