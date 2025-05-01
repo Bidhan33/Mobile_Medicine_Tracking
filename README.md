@@ -73,7 +73,7 @@ GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 
 1. Clone the repository:
 
-    ```                                                      git clone https://github.com/yourusername/medicine-reminder-app.git   ```  
+    ```                                                  [    git clone https://github.com/yourusername/medicine-reminder-app.git ](https://github.com/Bidhan33/Mobile_Medicine_Tracking.git)   ```  
 
 ## Navigate to the project directory:
 
@@ -225,5 +225,19 @@ Open a Pull Request
 This project is licensed under the MIT License - see the LICENSE file for details.
 ## 📧 Contact
 Project Maintainer: Bidhan Adhikari
-Project Link: https://github.com/Bidhan33/medicine-reminder-app
+Project Link: https://github.com/Bidhan33/Mobile_Medicine_Tracking.git
 
+
+# Here Are the Screenshot of the Project
+
+![25](https://github.com/user-attachments/assets/8a6c80ff-a43b-4b23-9613-c31531e2bd48)
+![24](https://github.com/user-attachments/assets/d6909667-d38b-4661-9821-cc85522f2e04)
+![23](https://github.com/user-attachments/assets/894e8f06-fce9-4b35-9d85-dcc378b5d8dc)
+![22](https://github.com/user-attachments/assets/135f37db-75b7-4846-8af5-5c2ccd54563b)
+![33](https://github.com/user-attachments/assets/0f29a1a8-42b1-4bd0-9096-41907db815b4)
+![32](https://github.com/user-attachments/assets/71d4aaf9-dee7-473d-bf74-b778b0e4ce79)
+![30](https://github.com/user-attachments/assets/52b58ed9-c2ff-4d2e-a546-350b4c85b6eb)
+![29](https://github.com/user-attachments/assets/e088c8d8-d183-4d2a-bb3b-494965e9ca88)
+![28](https://github.com/user-attachments/assets/6bb0781b-d414-4f33-a5d8-811bd011f70b)
+![27](https://github.com/user-attachments/assets/71a9ab06-4d35-48fd-9469-c7fca095fdca)
+![26](https://github.com/user-attachments/assets/100fb740-8ac0-4ce2-ac11-3b155658e7ae)
