@@ -58,16 +58,6 @@ The Medicine Reminder App is a user-friendly and efficient mobile application bu
 - Firebase account
 - Google Maps API key
 
-### Environment Setup
-
-1. Create a `.env` file in the root directory with the following variables:
-FIREBASE_API_KEY=your_firebase_api_key
-FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-FIREBASE_PROJECT_ID=your_firebase_project_id
-FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-FIREBASE_APP_ID=your_firebase_app_id
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 
 ### Installation Steps
 
