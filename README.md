@@ -2,7 +2,11 @@
 
 A comprehensive React Native mobile application that helps users manage their medication schedules effectively and efficiently.
 
-![Medicine Reminder App](https://github.com/yourusername/medicine-reminder-app/raw/main/assets/app-preview.png)
+![1](https://github.com/user-attachments/assets/77522b01-a452-46d4-803f-d208add10a50)
+![3](https://github.com/user-attachments/assets/1c541bb4-4271-4c2a-8248-7b3f2dc1334e)
+
+![2](https://github.com/user-attachments/assets/a77b6b16-f934-4835-ad28-7d9ace914aa2)
+![4](https://github.com/user-attachments/assets/3f0a17a8-23a2-4450-876b-5c7cdd79bddf)
 
 ## 📱 Overview
 
@@ -218,10 +222,4 @@ Project Maintainer: Bidhan Adhikari
 Project Link: https://github.com/Bidhan33/Mobile_Medicine_Tracking.git
 
 
-# Here Are the Screenshot of the Project
 
-![1](https://github.com/user-attachments/assets/77522b01-a452-46d4-803f-d208add10a50)
-![3](https://github.com/user-attachments/assets/1c541bb4-4271-4c2a-8248-7b3f2dc1334e)
-
-![2](https://github.com/user-attachments/assets/a77b6b16-f934-4835-ad28-7d9ace914aa2)
-![4](https://github.com/user-attachments/assets/3f0a17a8-23a2-4450-876b-5c7cdd79bddf)
