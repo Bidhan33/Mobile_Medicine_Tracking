@@ -185,17 +185,28 @@ Medication Interaction Alerts: Notify users of potential drug interactions
 Offline Mode: Allow app functionality without internet connection
 Data Export: Enable exporting medication history to PDF/CSV
 
-👥 Contributing
+
+
+```
+## 🗓️ Future Improvements
+
+Integration with Wearable Health Devices: Connect with smartwatches and fitness trackers
+Voice Reminders & Speech-to-Text: Add voice capabilities for improved accessibility
+Multi-Language Support: Expand to global audience with multiple languages
+Dark Mode: Implement dark mode for better user experience
+Medication Interaction Alerts: Notify users of potential drug interactions
+Offline Mode: Allow app functionality without internet connection
+Data Export: Enable exporting medication history to PDF/CSV
+
+## 👥 Contributing
 We welcome contributions to improve the Medicine Reminder App! Here's how you can contribute:
-
-Fork the repository
-Create your feature branch (git checkout -b feature/amazing-feature)
-Commit your changes (git commit -m 'Add some amazing feature')
-Push to the branch (git push origin feature/amazing-feature)
-Open a Pull Request
-
 Please make sure to update tests as appropriate and adhere to the existing coding style.
-🐛 Bug Reports
+
+
+
+
+
+# 🐛 Bug Reports
 If you find a bug, please open an issue on GitHub with:
 
 A clear title and description
@@ -204,10 +215,15 @@ Expected behavior
 Screenshots (if applicable)
 Device information (OS, model, etc.)
 
-📄 License
+
+## Fork the repository
+Create your feature branch (git checkout -b feature/amazing-feature)
+Commit your changes (git commit -m 'Add some amazing feature')
+Push to the branch (git push origin feature/amazing-feature)
+Open a Pull Request
+## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
-📧 Contact
+## 📧 Contact
 Project Maintainer: Bidhan Adhikari
 Project Link: https://github.com/Bidhan33/medicine-reminder-app
-
 
