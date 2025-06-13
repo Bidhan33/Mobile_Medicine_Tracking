@@ -1,4 +1,4 @@
-# 🩺 Medicine Reminder App
+# 🩺 Medicine Reminder App - Bidhan Adhikari
 
 A comprehensive React Native mobile application that helps users manage their medication schedules effectively and efficiently.
 
